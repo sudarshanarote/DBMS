@@ -1,0 +1,225 @@
+--- Database Concepts ---
+What is a database?
+The need for it ?
+The variant available in the market?
+
+Oracle as Database ? what cateogory ? Some things around Oracle as a database?
+Codd’s 12 rules?
+Introduction to SQL ?
+
+Oracle Environment ready?
+------------------------------
+Collection of raw data / Storage / Manipulate 
+Bunch of data 
+Data stored in organised form / proper way 
+-------------------------------------
+Definition:
+data --> organisation --> retrived --> Analysis 
+
+Categories 
+--------------
+a) RDBMS /SQL database : ex: Oracle,mysql,sql server,Db2,Postgres,Sqllite....
+b) No-sql : ex: MongoDB,Cassandra,...
+
+https://db-engines.com/en/ranking
+
+Oracle as a database 
+---------------------
+R DBMS -- tables
+student edition, standard edition, enterprise edition
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Codd rules 
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+Create an account 
+
+--------
+SQL 
+--------
+Structured Query Language -- High level language that helps talk to the database
+
+Categories of commands in SQL
+---------------------
+a) DDL (Data Definition Language) [changes made would be permanent]
+CREATE, DROP, ALTER, RENAME,TRUNCATE
+
+b) DML (Data Manipulation Language)[changes made would be Temporary]
+INSERT,UPDATE,DELETE
+
+c) TCL ( Transaction Control Language) [Always works on DML's]
+COMMIT ROLLBACK SAVEPOINT
+
+d) DCL ( Data Control Language) [useful across users when you need to give/takeback permissions	]
+GRANT REVOKE 
+
+e) DQL ( Data Query Language)
+SELECT
+
+
+-------------------
+// what is schema and schema objects ?
+schema -- logical container where all the schema objects will reside 
+   ex: gaurav[username]/gaurav[password]  -- apni khud ki schema
+       cdac[username]/pass[password] -- apni khud ki schema
+	   
+  schema objects -- objects in the schema 
+   ex: table , view , procedure, function 
+   
+   
+gaurav -- student table    
+
+cdac -- > select grant to table student 
+                  -- only select on that table , no other operation permitted 
+		  revoke -- will revert the grants provided 
+				  
+// illustration of commit;
+1 ==> delete1
+2 ==> delete2
+3
+4
+4 rows
+
+	//transaction started with below executable statement
+	delete1 -- row no1  ;
+	delete2; -- row no2 
+
+commit;
+
+
+
+3
+4
+
+2 rows
+
+
+				  
+   
+// illustration of rollback;
+1 ==> delete1
+2 ==> delete2
+3
+4
+4 rows
+
+	//transaction started with below executable statement
+	delete1 -- row no1  ;
+	delete2; -- row no2 
+
+rollback;
+
+
+1 
+2 
+3
+4
+4 rows
+   
+
+  
+// illustration of savepoint;
+1 ==> delete1
+2 ==> delete2
+3
+4
+4 rows
+
+	//transaction started with below executable statement
+	savepoint beforeFirstDelete
+	delete1 -- row no1  ;
+	
+	savepoint beforeSecondDelete
+	delete2; -- row no2 
+
+rollback to beforeSecondDelete;
+2 
+3
+4
+4 rows   
+------------------------
+
+-------- DEMO------------
+cReAtE table MY_FIRST_TABLE
+(
+my_first_column number 
+);
+
+DESCRIBE MY_FIRST_TABLE_NEW;
+DROP table MY_FIRST_TABLE;
+
+cReAtE table MY_FIRST_TABLE
+(
+my_first_column number 
+);
+
+
+ALTER table MY_FIRST_TABLE add(my_second_column number);
+ALTER table MY_FIRST_TABLE add(my_third_column date);
+ALTER table MY_FIRST_TABLE drop(my_third_column );
+
+ALTER table MY_FIRST_TABLE rename column my_second_column to my_second_column_new ;
+
+rename MY_FIRST_TABLE to MY_FIRST_TABLE_NEW ;
+
+
+
+-- another user will run this command 
+select * from cdac.my_table;
+insert into my_Table() values (); -- table cannot 
+
+DESC MY_FIRST_TABLE_NEW;
+select * from MY_FIRST_TABLE_NEW;
+
+INSERT INTO MY_FIRST_TABLE_NEW(COLUMN_LIST) VALUES (VALUE_LIST);
+INSERT INTO MY_FIRST_TABLE_NEW(my_first_column,my_second_column_new) VALUES (1,10); 
+INSERT INTO MY_FIRST_TABLE_NEW(my_first_column,my_second_column_new) VALUES (2,20);
+INSERT INTO MY_FIRST_TABLE_NEW(my_first_column,my_second_column_new) VALUES (3,30);
+INSERT INTO MY_FIRST_TABLE_NEW(my_first_column,my_second_column_new) VALUES (4,40);
+
+/* I WANT TO ROLLBACK MY DELETE */
+/* 4 ROWS */
+select * from MY_FIRST_TABLE_NEW; 
+-- this should delete 4 rows Temporarily
+    DELETE from MY_FIRST_TABLE_NEW;  
+-- 0 rows 
+select * from MY_FIRST_TABLE_NEW; 
+-- revert the temporary changes done by delete , bring back those 4 deleted rows 
+    ROLLBACK;  
+-- 4 rows    
+select * from MY_FIRST_TABLE_NEW;  
+
+/* I WANT TO COMMIT MY CHANGES */
+/* 4 ROWS */
+select * from MY_FIRST_TABLE_NEW; 
+-- this should delete 4 rows Temporarily
+    DELETE from MY_FIRST_TABLE_NEW;  
+-- 0 rows 
+select * from MY_FIRST_TABLE_NEW; 
+-- make the temporary changes done by delete permenant
+    COMMIT;  
+-- 0 rows    
+select * from MY_FIRST_TABLE_NEW;
+
+-------
+create table my_table 
+(
+);
+
+grant select to my_table to another_user // syntax may be incorrect 
+grant revoke to my_table to another_user // syntax may be incorrect 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
